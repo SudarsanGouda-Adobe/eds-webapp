@@ -1,2 +1,22 @@
 /* add global styles that can be loaded post LCP here */
-@import url('./custom-icon.css');
+main .section[data-class="assignment5"] {
+  background-color: #dbd9d9;padding: 1px 0 28px 0;
+}
+
+main .section[data-class="assignment5"] h2,
+main .section[data-class="assignment5"] p {
+  color: var(--text-color);
+}
+
+main .section[data-class="workshop2Img"] img {
+  display: block;
+  width: 100%;
+  height: 330px;
+  object-fit: cover;
+}
+
+@media (max-width: 899px) {
+  main .section[data-class="workshop2Img"] img {
+    height: auto;
+  }
+}

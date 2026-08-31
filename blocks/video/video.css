@@ -1,0 +1,16 @@
+.video {
+  width: 100%;
+}
+
+.video iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  border: 0;
+}
+
+@media (min-width: 600px) {
+  .video iframe {
+    aspect-ratio: 16 / 7;
+  }
+}
