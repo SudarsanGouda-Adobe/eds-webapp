@@ -26,6 +26,13 @@
   object-fit: cover;
 }
 
+.banner-media::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient( 129deg,rgb(7, 138, 187),rgba(28, 120, 234, 0.4));
+}
+
 /* Dark Overlay */
 .banner::before {
   content: '';
