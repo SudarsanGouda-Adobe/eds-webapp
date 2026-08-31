@@ -1,4 +1,14 @@
 export default function decorate(block) {
+  // Remove empty rows created in EDS
+  [...block.children].forEach((slide) => {
+    const hasContent = slide.textContent.trim()
+      || slide.querySelector('img, picture, a');
+
+    if (!hasContent) {
+      slide.remove();
+    }
+  });
+
   const slides = [...block.children];
 
   if (!slides.length) return;
@@ -6,47 +16,76 @@ export default function decorate(block) {
   let currentIndex = 0;
   let autoplayTimer;
 
-  // Create track
+  /*
+   * Create carousel track
+   */
   const track = document.createElement('div');
   track.className = 'carousel-track';
 
-  // Move slides into track
   slides.forEach((slide, index) => {
     slide.classList.add('carousel-slide');
+
     slide.setAttribute('role', 'group');
-    slide.setAttribute('aria-label', `${index + 1} of ${slides.length}`);
+    slide.setAttribute('aria-roledescription', 'slide');
+    slide.setAttribute(
+      'aria-label',
+      `${index + 1} of ${slides.length}`,
+    );
 
     track.append(slide);
   });
 
   block.append(track);
 
-  // Previous button
+  /*
+   * Previous button
+   */
   const previousButton = document.createElement('button');
+
   previousButton.className = 'carousel-previous';
   previousButton.type = 'button';
   previousButton.setAttribute('aria-label', 'Previous slide');
   previousButton.innerHTML = '&#10094;';
 
-  // Next button
+  /*
+   * Next button
+   */
   const nextButton = document.createElement('button');
+
   nextButton.className = 'carousel-next';
   nextButton.type = 'button';
   nextButton.setAttribute('aria-label', 'Next slide');
   nextButton.innerHTML = '&#10095;';
 
-  // Dots
+  /*
+   * Dots
+   */
   const dots = document.createElement('div');
+
   dots.className = 'carousel-dots';
+  dots.setAttribute('role', 'tablist');
+  dots.setAttribute('aria-label', 'Carousel navigation');
 
   block.append(previousButton, nextButton, dots);
 
+  /*
+   * Number of visible slides
+   */
   function getVisibleSlides() {
-    if (window.innerWidth >= 1024) return 3;
-    if (window.innerWidth >= 600) return 2;
+    if (window.innerWidth >= 1024) {
+      return 3;
+    }
+
+    if (window.innerWidth >= 600) {
+      return 2;
+    }
+
     return 1;
   }
 
+  /*
+   * Maximum carousel position
+   */
   function getMaxIndex() {
     return Math.max(
       0,
@@ -54,6 +93,9 @@ export default function decorate(block) {
     );
   }
 
+  /*
+   * Create dots dynamically
+   */
   function createDots() {
     dots.innerHTML = '';
 
@@ -64,10 +106,15 @@ export default function decorate(block) {
 
       dot.className = 'carousel-dot';
       dot.type = 'button';
-      dot.setAttribute('aria-label', `Go to position ${i + 1}`);
+
+      dot.setAttribute(
+        'aria-label',
+        `Go to position ${i + 1}`,
+      );
 
       dot.addEventListener('click', () => {
         currentIndex = i;
+
         updateCarousel();
         restartAutoplay();
       });
@@ -76,6 +123,9 @@ export default function decorate(block) {
     }
   }
 
+  /*
+   * Update carousel position
+   */
   function updateCarousel() {
     const visibleSlides = getVisibleSlides();
 
@@ -88,6 +138,9 @@ export default function decorate(block) {
     track.style.transform =
       `translateX(-${currentIndex * slideWidth}%)`;
 
+    /*
+     * Update dots
+     */
     [...dots.children].forEach((dot, index) => {
       dot.classList.toggle(
         'active',
@@ -96,6 +149,9 @@ export default function decorate(block) {
     });
   }
 
+  /*
+   * Next
+   */
   function nextSlide() {
     const maxIndex = getMaxIndex();
 
@@ -108,6 +164,9 @@ export default function decorate(block) {
     updateCarousel();
   }
 
+  /*
+   * Previous
+   */
   function previousSlide() {
     const maxIndex = getMaxIndex();
 
@@ -120,6 +179,9 @@ export default function decorate(block) {
     updateCarousel();
   }
 
+  /*
+   * Arrow events
+   */
   previousButton.addEventListener('click', () => {
     previousSlide();
     restartAutoplay();
@@ -130,9 +192,66 @@ export default function decorate(block) {
     restartAutoplay();
   });
 
-  // Autoplay
+  /*
+   * Keyboard navigation
+   */
+  block.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') {
+      previousSlide();
+      restartAutoplay();
+    }
+
+    if (event.key === 'ArrowRight') {
+      nextSlide();
+      restartAutoplay();
+    }
+  });
+
+  /*
+   * Touch / swipe
+   */
+  let touchStartX = 0;
+
+  block.addEventListener(
+    'touchstart',
+    (event) => {
+      touchStartX = event.changedTouches[0].screenX;
+    },
+    { passive: true },
+  );
+
+  block.addEventListener(
+    'touchend',
+    (event) => {
+      const touchEndX = event.changedTouches[0].screenX;
+
+      const difference = touchStartX - touchEndX;
+
+      if (Math.abs(difference) < 50) {
+        return;
+      }
+
+      if (difference > 0) {
+        nextSlide();
+      } else {
+        previousSlide();
+      }
+
+      restartAutoplay();
+    },
+    { passive: true },
+  );
+
+  /*
+   * Autoplay
+   */
   function startAutoplay() {
-    clearInterval(autoplayTimer);
+    stopAutoplay();
+
+    // Don't autoplay if there is nothing to slide
+    if (slides.length <= getVisibleSlides()) {
+      return;
+    }
 
     autoplayTimer = setInterval(() => {
       nextSlide();
@@ -140,7 +259,10 @@ export default function decorate(block) {
   }
 
   function stopAutoplay() {
-    clearInterval(autoplayTimer);
+    if (autoplayTimer) {
+      clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
   }
 
   function restartAutoplay() {
@@ -148,19 +270,41 @@ export default function decorate(block) {
     startAutoplay();
   }
 
+  /*
+   * Pause when mouse is over carousel
+   */
   block.addEventListener('mouseenter', stopAutoplay);
+
   block.addEventListener('mouseleave', startAutoplay);
 
+  /*
+   * Pause when browser tab is hidden
+   */
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopAutoplay();
+    } else {
+      startAutoplay();
+    }
+  });
+
+  /*
+   * Resize
+   */
   window.addEventListener('resize', () => {
-    currentIndex = Math.min(
-      currentIndex,
-      getMaxIndex(),
-    );
+    const maxIndex = getMaxIndex();
+
+    if (currentIndex > maxIndex) {
+      currentIndex = maxIndex;
+    }
 
     createDots();
     updateCarousel();
   });
 
+  /*
+   * Initial setup
+   */
   createDots();
   updateCarousel();
   startAutoplay();
