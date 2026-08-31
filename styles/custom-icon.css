@@ -103,3 +103,19 @@
 
   margin-right: 6px;
 }
+
+.icon-star {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  margin-right: 8px;
+}
+
+.icon-star::before {
+  content: "★";
+  display: block;
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 20px;
+}
