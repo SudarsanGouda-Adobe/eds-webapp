@@ -10,16 +10,16 @@ export default function decorate(block){
         size:'sm'
     });
      const danderButton=createButton({
-        text:"Learn More",
+        text:"Rating",
         variant:"secondary",
         size:'sm',
-        icon:'cart',
+        icon:'star',
     });
     const iconButton = createButton({
     text: 'Add to cart',
     variant: 'primary',
     size: 'sm',
-    icon: 'star',
+    icon: 'cart',
   });
   block.textContent = '';
   btngrp.append(normalButton, iconButton,danderButton);
