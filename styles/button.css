@@ -66,9 +66,7 @@
 }
 
 
-/* =========================================
-   Sizes
-   ========================================= */
+
 
 .btn-sm {
   padding: 8px 14px;
@@ -86,9 +84,6 @@
 }
 
 
-/* =========================================
-   Primary
-   ========================================= */
 
 .btn-primary {
   background-color: var(--color-primary);
@@ -101,11 +96,6 @@
   border-color: var(--color-primary-hover);
   color: var(--color-text-white);
 }
-
-
-/* =========================================
-   Secondary
-   ========================================= */
 
 .btn-secondary {
   background-color: var(--color-secondary);
@@ -120,9 +110,6 @@
 }
 
 
-/* =========================================
-   Danger
-   ========================================= */
 
 .btn-danger {
   background-color: var(--color-danger);
@@ -137,9 +124,6 @@
 }
 
 
-/* =========================================
-   Success
-   ========================================= */
 
 .btn-success {
   background-color: var(--color-success);
@@ -154,9 +138,6 @@
 }
 
 
-/* =========================================
-   Warning
-   ========================================= */
 
 .btn-warning {
   background-color: var(--color-warning);
@@ -170,10 +151,6 @@
   color: var(--color-text-primary);
 }
 
-
-/* =========================================
-   Info
-   ========================================= */
 
 .btn-info {
   background-color: var(--color-info);
@@ -239,7 +216,7 @@ a.btn:hover,
 a.btn:focus-visible {
   text-decoration: none;
 }
-
+a.btn.btn-primary{color: #ffffff;}
 
 /* =========================================
    Icon

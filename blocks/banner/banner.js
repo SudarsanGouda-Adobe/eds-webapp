@@ -1,6 +1,6 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 
-export default function decorate(block) {debugger;
+export default function decorate(block) {
   const img = block.querySelector('img');
   const heading = block.querySelector('h1');
   const description = block.querySelectorAll('p')[0];
