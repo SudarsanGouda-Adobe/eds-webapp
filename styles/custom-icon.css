@@ -1,0 +1,105 @@
+/* =========================================
+   Custom Shopping Cart Icon
+   ========================================= */
+
+.icon-cart {
+  --cart-size: 20px;
+  --cart-stroke: 2px;
+
+  position: relative;
+  display: inline-block;
+
+  width: var(--cart-size);
+  height: var(--cart-size);
+
+  flex: 0 0 var(--cart-size);
+  margin-right: 8px;
+
+  color: currentcolor;
+
+  box-sizing: border-box;
+
+  /* Two cart wheels */
+  background:
+    radial-gradient(
+      circle,
+      currentcolor 0 2px,
+      transparent 2.5px
+    ) 5px 16px / 5px 5px no-repeat,
+
+    radial-gradient(
+      circle,
+      currentcolor 0 2px,
+      transparent 2.5px
+    ) 13px 16px / 5px 5px no-repeat;
+}
+
+/* =========================================
+   Cart Handle
+   ========================================= */
+
+.icon-cart::before {
+  content: '';
+
+  position: absolute;
+
+  top: 2px;
+  left: 1px;
+
+  width: 7px;
+  height: 7px;
+
+  border-top: var(--cart-stroke) solid currentcolor;
+  border-right: var(--cart-stroke) solid currentcolor;
+
+  transform: rotate(45deg);
+
+  box-sizing: border-box;
+}
+
+/* =========================================
+   Cart Basket
+   ========================================= */
+
+.icon-cart::after {
+  content: '';
+
+  position: absolute;
+
+  top: 6px;
+  left: 4px;
+
+  width: 15px;
+  height: 10px;
+
+  border: var(--cart-stroke) solid currentcolor;
+  border-top: 0;
+
+  border-radius: 0 0 3px 3px;
+
+  transform: skewX(-8deg);
+
+  box-sizing: border-box;
+}
+
+/* =========================================
+   Optional: Larger Cart Icon
+   ========================================= */
+
+.icon-cart--large {
+  --cart-size: 24px;
+  --cart-stroke: 2px;
+
+  margin-right: 10px;
+}
+
+/* =========================================
+   Optional: Smaller Cart Icon
+   ========================================= */
+
+.icon-cart--small {
+  --cart-size: 16px;
+  --cart-stroke: 1.5px;
+
+  margin-right: 6px;
+}

@@ -1,6 +1,8 @@
+
+import { createButton } from '../../scripts/components/button.js';
 import { createOptimizedPicture } from '../../scripts/aem.js';
 
-export default function decorate(block) {
+export default function decorate(block) { debugger;
   /* change to ul, li */
   const ul = document.createElement('ul');
   [...block.children].forEach((row) => {
@@ -10,8 +12,27 @@ export default function decorate(block) {
       if (div.children.length === 1 && div.querySelector('picture')) div.className = 'cards-card-image';
       else div.className = 'cards-card-body';
     });
+
+      // find attribute link
+ const link =li.querySelector('.cards-card-body a');
+ if(link){
+  const button=createButton({
+    text:link.textContent.trim(),
+    href:link.href,
+    variant:'primary',
+    size:'sm',
+    dataset:{
+      action:'view-product',
+    },
+  });
+  link.replaceWith(button);  
+ }
+
     ul.append(li);
   });
+
+
+
   ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
   block.replaceChildren(ul);
 }
