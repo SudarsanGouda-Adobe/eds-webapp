@@ -91,7 +91,7 @@ body.appear {
 header {
   height: var(--nav-height);position: sticky;top:0;z-index:999;
   border-bottom: 1px solid #ccc;
-  box-shadow:var(--card-shadow);
+  box-shadow:var(--card-shadow);margin-bottom: 10px;
 }
 
 header .header,
