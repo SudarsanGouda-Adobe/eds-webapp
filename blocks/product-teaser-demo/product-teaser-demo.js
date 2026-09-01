@@ -1,7 +1,7 @@
 
 import { createProductTeaser } from "../../scripts/components/product-teaser.js";
 const APP_URL="https://fakestoreapi.com/products";
-export default async function decorate(block){ debugger;
+export default async function decorate(block){ 
     
     try{
         const response = await fetch(APP_URL);
