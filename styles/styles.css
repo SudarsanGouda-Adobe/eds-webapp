@@ -39,6 +39,9 @@
 
   /* nav height */
   --nav-height: 64px;
+
+   --card-shadow:0 2px 8px rgb(0 0 0 / 8%);
+    --card-hover-shadow:0 8px 20px rgb(0 0 0 / 15%);
 }
 
 /* fallback fonts */
@@ -86,7 +89,9 @@ body.appear {
 }
 
 header {
-  height: var(--nav-height);
+  height: var(--nav-height);position: sticky;top:0;z-index:999;
+  border-bottom: 1px solid #ccc;
+  box-shadow:var(--card-shadow);
 }
 
 header .header,

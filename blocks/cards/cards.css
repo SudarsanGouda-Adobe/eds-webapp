@@ -10,6 +10,10 @@
 .cards > ul > li {
   border: 1px solid #dadada;
   background-color: var(--background-color);
+  box-shadow: var(--card-shadow);border-radius: 8px;
+}
+.cards > ul > li:hover {
+  box-shadow: var(--card-hover-shadow);
 }
 
 .cards .cards-card-body {
@@ -23,5 +27,5 @@
 .cards > ul > li img {
   width: 100%;
   aspect-ratio: 4 / 3;
-  object-fit: cover;
+  object-fit: cover; border-radius: 8px 8px 0 0;
 }
